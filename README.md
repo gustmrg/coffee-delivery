@@ -28,9 +28,10 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 
 ## 💻 Projeto
 
-<p>O <strong>Coffee Delivery</strong> é um app full-stack de uma loja fictícia com catálogo e compra de cafés proposta no curso Ignite da [@Rocketseat](https://www.rocketseat.com.br/).</p> 
-<p>Apesar de ter sido proposto como um desafio front-end, decidi acrescentar o back-end para o registro dos produtos e das compras, com o objetivo
-de melhorar ainda mais minhas habilidades de integração e desenvolvimento com C# e TypeScript.</p>
+O <strong>Coffee Delivery</strong> é um app full-stack de uma loja fictícia com catálogo e compra de cafés proposta no curso Ignite da [@Rocketseat](https://www.rocketseat.com.br/).
+
+Apesar de ter sido proposto como um desafio front-end, decidi acrescentar o back-end para o registro dos produtos e das compras, com o objetivo
+de melhorar ainda mais minhas habilidades de integração e desenvolvimento com C# e TypeScript.
 
 ## 🚀 Como executar
 
