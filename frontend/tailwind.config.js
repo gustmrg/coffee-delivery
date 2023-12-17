@@ -9,7 +9,11 @@ export default {
       'header': ['"Baloo 2"', 'sans-serif'],
       'sans': ['Roboto', 'sans-serif']
     },
-    extend: {},
+    extend: {
+      backgroundImage: {
+        'intro-background': "url('/assets/background.png')",
+      }
+    },
   },
   plugins: [],
 }
