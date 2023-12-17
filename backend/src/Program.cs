@@ -1,4 +1,10 @@
+using CoffeeDelivery.API.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+var connection = builder.Configuration.GetConnectionString("DefaultConnection");
+
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(connection));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
