@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoffeeDelivery.API.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231217144900_InitialCreate")]
+    [Migration("20231217150745_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -26,30 +26,40 @@ namespace CoffeeDelivery.API.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Category")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("category");
 
                     b.Property<string>("Description")
-                        .HasColumnType("TEXT");
+                        .HasMaxLength(1000)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("description");
 
                     b.Property<bool>("HasAlcohol")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("has_alcohol");
 
                     b.Property<bool>("HasMilk")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("has_milk");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasMaxLength(250)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("name");
 
                     b.Property<double>("Price")
-                        .HasColumnType("REAL");
+                        .HasColumnType("REAL")
+                        .HasColumnName("price");
 
                     b.Property<int>("Temperature")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("temperature");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("coffee_id");
 
-                    b.ToTable("Coffees");
+                    b.ToTable("coffees", (string)null);
                 });
 #pragma warning restore 612, 618
         }

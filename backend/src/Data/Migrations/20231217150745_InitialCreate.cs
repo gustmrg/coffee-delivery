@@ -11,22 +11,22 @@ namespace CoffeeDelivery.API.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Coffees",
+                name: "coffees",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Description = table.Column<string>(type: "TEXT", nullable: true),
-                    Temperature = table.Column<int>(type: "INTEGER", nullable: false),
-                    Category = table.Column<int>(type: "INTEGER", nullable: false),
-                    Price = table.Column<double>(type: "REAL", nullable: false),
-                    HasMilk = table.Column<bool>(type: "INTEGER", nullable: false),
-                    HasAlcohol = table.Column<bool>(type: "INTEGER", nullable: false)
+                    name = table.Column<string>(type: "TEXT", maxLength: 250, nullable: false),
+                    description = table.Column<string>(type: "TEXT", maxLength: 1000, nullable: true),
+                    temperature = table.Column<int>(type: "INTEGER", nullable: false),
+                    category = table.Column<int>(type: "INTEGER", nullable: false),
+                    price = table.Column<double>(type: "REAL", nullable: false),
+                    has_milk = table.Column<bool>(type: "INTEGER", nullable: false),
+                    has_alcohol = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Coffees", x => x.Id);
+                    table.PrimaryKey("coffee_id", x => x.Id);
                 });
         }
 
@@ -34,7 +34,7 @@ namespace CoffeeDelivery.API.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Coffees");
+                name: "coffees");
         }
     }
 }

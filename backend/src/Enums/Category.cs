@@ -2,6 +2,6 @@ namespace CoffeeDelivery.API.Enums;
 
 public enum Category
 {
-    Traditional,
-    Special
+    Traditional = 1,
+    Special = 2
 }
