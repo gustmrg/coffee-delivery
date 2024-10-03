@@ -1,13 +1,20 @@
-import Header from "./components/Header"
-import Intro from "./components/Intro"
-import CoffeeList from "./components/CoffeeList"
+import CoffeeItem from "./components/CoffeeItem";
+import Header from "./components/Header";
+import Intro from "./components/Intro";
 
 export default function App() {
   return (
     <>
       <Header />
       <Intro />
-      <CoffeeList />
+      <div>
+        <CoffeeItem />
+        <CoffeeItem />
+        <CoffeeItem />
+        <CoffeeItem />
+        <CoffeeItem />
+        <CoffeeItem />
+      </div>
     </>
-  )
+  );
 }
