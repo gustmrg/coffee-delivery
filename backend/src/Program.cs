@@ -20,9 +20,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapGet("/coffees", async (ApplicationDbContext _context) =>
+app.MapGet("/coffees", async (ApplicationDbContext context) =>
     {
-        var coffees = await _context.Coffees.AsNoTracking().ToListAsync();
+        var coffees = await context.Coffees.AsNoTracking().ToListAsync();
         return coffees;
     })
 .WithName("GetCoffees")
