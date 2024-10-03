@@ -1,6 +1,8 @@
 using CoffeeDelivery.API.Enums;
+using CoffeeDelivery.API.Extensions;
 using CoffeeDelivery.API.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace CoffeeDelivery.API.Data;
 
@@ -12,48 +14,37 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Coffee>()
-            .HasKey(c => c.Id)
-            .HasName("coffee_id");
+        base.OnModelCreating(modelBuilder);
         
-        modelBuilder.Entity<Coffee>()
-            .Property(c => c.Id)
-            .HasColumnName("coffee_id");
-        
-        modelBuilder.Entity<Coffee>().Property(c => c.Name)
-            .HasColumnName("name")
-            .HasMaxLength(250)
-            .IsRequired();
-        
-        modelBuilder.Entity<Coffee>().Property(c => c.Description)
-            .HasColumnName("description")
-            .HasMaxLength(1000);
-        
-        modelBuilder.Entity<Coffee>()
-            .Property(c => c.Price)
-            .HasConversion<double>()
-            .HasColumnName("price")
-            .IsRequired();
-        
-        modelBuilder.Entity<Coffee>().Property(c => c.Temperature)
-            .HasColumnName("temperature")
-            .IsRequired();
-        
-        modelBuilder.Entity<Coffee>().Property(c => c.Category)
-            .HasColumnName("category")
-            .IsRequired();
-        
-        modelBuilder.Entity<Coffee>().Property(c => c.HasMilk)
-            .HasColumnName("has_milk")
-            .IsRequired();
-        
-        modelBuilder.Entity<Coffee>().Property(c => c.HasAlcohol)
-            .HasColumnName("has_alcohol")
-            .IsRequired();
+        foreach(var entity in modelBuilder.Model.GetEntityTypes())
+        {
+            // Replace table names
+            entity.SetTableName(entity.GetTableName().ToSnakeCase());
 
-        modelBuilder.Entity<Coffee>().ToTable("coffees");
+            // Replace column names            
+            foreach(var property in entity.GetProperties())
+            {
+                var columnName = property.GetColumnName(StoreObjectIdentifier.Table(property.DeclaringEntityType.GetTableName(), null));
+                property.SetColumnName(columnName.ToSnakeCase());
+            }
 
-        #region Seed data
+            foreach(var key in entity.GetKeys())
+            {
+                key.SetName(key.GetName().ToSnakeCase());
+            }
+
+            foreach(var key in entity.GetForeignKeys())
+            {
+                key.SetConstraintName(key.GetConstraintName().ToSnakeCase());
+            }
+
+            foreach(var index in entity.GetIndexes())
+            {
+                index.SetDatabaseName(index.GetDatabaseName().ToSnakeCase());
+            }
+        }
+        
+        # region Seed data
         
         modelBuilder.Entity<Coffee>().HasData(
             new Coffee
@@ -62,10 +53,10 @@ public class ApplicationDbContext : DbContext
                 Name = "Expresso Tradicional", 
                 Description = "O tradicional café feito com água quente e grãos moídos",
                 Temperature = Temperature.Hot,
-                Category = Category.Traditional,
+                CoffeeType = CoffeeType.Traditional,
                 Price = 9.90M,
                 HasMilk = false,
-                HasAlcohol = false
+                IsAlcoholic = false
             },
             new Coffee
             {
@@ -73,10 +64,10 @@ public class ApplicationDbContext : DbContext
                 Name = "Expresso Americano", 
                 Description = "Expresso diluído, menos intenso que o tradicional",
                 Temperature = Temperature.Hot,
-                Category = Category.Traditional,
+                CoffeeType = CoffeeType.Traditional,
                 Price = 9.90M,
                 HasMilk = false,
-                HasAlcohol = false
+                IsAlcoholic = false
             },
             new Coffee
             {
@@ -84,10 +75,10 @@ public class ApplicationDbContext : DbContext
                 Name = "Expresso Cremoso", 
                 Description = "Café expresso tradicional com espuma cremosa",
                 Temperature = Temperature.Hot,
-                Category = Category.Traditional,
+                CoffeeType = CoffeeType.Traditional,
                 Price = 9.90M,
                 HasMilk = false,
-                HasAlcohol = false
+                IsAlcoholic = false
             },
             new Coffee
             {
@@ -95,10 +86,10 @@ public class ApplicationDbContext : DbContext
                 Name = "Café com Leite", 
                 Description = "Meio a meio expresso tradicional com leite vaporizado",
                 Temperature = Temperature.Hot,
-                Category = Category.Traditional,
+                CoffeeType = CoffeeType.Traditional,
                 Price = 9.90M,
                 HasMilk = true,
-                HasAlcohol = false
+                IsAlcoholic = false
             },
             new Coffee
             {
@@ -106,10 +97,10 @@ public class ApplicationDbContext : DbContext
                 Name = "Latte", 
                 Description = "Uma dose de café expresso com o dobro de leite e espuma cremosa",
                 Temperature = Temperature.Hot,
-                Category = Category.Traditional,
+                CoffeeType = CoffeeType.Traditional,
                 Price = 9.90M,
                 HasMilk = true,
-                HasAlcohol = false
+                IsAlcoholic = false
             },
             new Coffee
             {
@@ -117,10 +108,10 @@ public class ApplicationDbContext : DbContext
                 Name = "Capuccino", 
                 Description = "Bebida com canela feita de doses iguais de café, leite e espuma",
                 Temperature = Temperature.Hot,
-                Category = Category.Traditional,
+                CoffeeType = CoffeeType.Traditional,
                 Price = 9.90M,
                 HasMilk = true,
-                HasAlcohol = false
+                IsAlcoholic = false
             },
             new Coffee
             {
@@ -128,10 +119,10 @@ public class ApplicationDbContext : DbContext
                 Name = "Mocaccino", 
                 Description = "Café expresso com calda de chocolate, pouco leite e espuma",
                 Temperature = Temperature.Hot,
-                Category = Category.Traditional,
+                CoffeeType = CoffeeType.Traditional,
                 Price = 9.90M,
                 HasMilk = true,
-                HasAlcohol = false
+                IsAlcoholic = false
             },
             new Coffee
             {
@@ -139,10 +130,10 @@ public class ApplicationDbContext : DbContext
                 Name = "Chocolate Quente", 
                 Description = "Bebida feita com chocolate dissolvido no leite quente e café",
                 Temperature = Temperature.Hot,
-                Category = Category.Special,
+                CoffeeType = CoffeeType.Special,
                 Price = 9.90M,
                 HasMilk = true,
-                HasAlcohol = false
+                IsAlcoholic = false
             },
             new Coffee
             {
@@ -150,10 +141,10 @@ public class ApplicationDbContext : DbContext
                 Name = "Cubano", 
                 Description = "Drink gelado de café expresso com rum, creme de leite e hortelã",
                 Temperature = Temperature.Cold,
-                Category = Category.Special,
+                CoffeeType = CoffeeType.Special,
                 Price = 9.90M,
                 HasMilk = false,
-                HasAlcohol = true
+                IsAlcoholic = true
             },
             new Coffee
             {
@@ -161,10 +152,10 @@ public class ApplicationDbContext : DbContext
                 Name = "Árabe", 
                 Description = "Bebida preparada com grãos de café árabe e especiarias",
                 Temperature = Temperature.Hot,
-                Category = Category.Special,
+                CoffeeType = CoffeeType.Special,
                 Price = 9.90M,
                 HasMilk = false,
-                HasAlcohol = false
+                IsAlcoholic = false
             },
             new Coffee
             {
@@ -172,14 +163,12 @@ public class ApplicationDbContext : DbContext
                 Name = "Irlandês", 
                 Description = "Bebida a base de café, uísque irlandês, açúcar e chantilly",
                 Temperature = Temperature.Hot,
-                Category = Category.Special,
+                CoffeeType = CoffeeType.Special,
                 Price = 9.90M,
                 HasMilk = false,
-                HasAlcohol = true
+                IsAlcoholic = true
             });
         
-        #endregion 
-        
-        base.OnModelCreating(modelBuilder);
+        #endregion
     }
 }
