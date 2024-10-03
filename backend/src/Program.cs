@@ -8,7 +8,16 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddCors();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+        });
+});
 
 var app = builder.Build();
 
@@ -28,9 +37,6 @@ app.MapGet("/coffees", async (ApplicationDbContext context) =>
 .WithName("GetCoffees")
 .WithOpenApi();
 
-app.UseCors(policyBuilder => policyBuilder
-        .AllowAnyOrigin()
-        .AllowAnyHeader()
-        .AllowAnyMethod());
+app.UseCors("AllowAllOrigins");
 
 app.Run();
