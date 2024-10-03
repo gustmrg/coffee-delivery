@@ -3,7 +3,7 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     fontFamily: {
-      header: ['"Baloo 2"', "sans-serif"],
+      baloo: ['"Baloo 2"', "sans-serif"],
       sans: ["Roboto", "sans-serif"],
     },
     colors: {
@@ -20,7 +20,7 @@ export default {
         700: "#4B2995",
       },
       base: {
-        button: "#E6E5E",
+        button: "#E6E5E5",
         card: "#F3F2F2",
         title: "#272221",
         subtitle: "#403937",
